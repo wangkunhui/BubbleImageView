@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BubbleImageView">
+        <attr name="maxWidth" format="dimension" />
+        <attr name="maxHeight" format="dimension" />
+        <attr name="imageBubble" format="reference" />
+        <attr name="imageDefault" format="reference" />
+        <attr name="imageError" format="reference" />
+    </declare-styleable>
+</resources>
