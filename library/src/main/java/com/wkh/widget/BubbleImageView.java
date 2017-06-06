@@ -43,6 +43,8 @@ public class BubbleImageView extends ImageView implements ImageLoaderCallBack {
 
     private Bitmap bubbleBitmap;
 
+    private Bitmap errorBitmap;
+
     private int pressedColor;
 
     private boolean isPressedFeedback = false;
@@ -74,17 +76,24 @@ public class BubbleImageView extends ImageView implements ImageLoaderCallBack {
     }
 
     private Bitmap getDefaultBitmap() {
-        if (defaultBitmap == null) {
+        if (defaultBitmap == null && imageDefaultRes != 0) {
             defaultBitmap = BitmapFactory.decodeResource(getResources(), imageDefaultRes);
         }
         return defaultBitmap;
     }
 
     private Bitmap getBubbleBitmap() {
-        if (bubbleBitmap == null) {
+        if (bubbleBitmap == null && imageBubbleRes != 0) {
             bubbleBitmap = BitmapFactory.decodeResource(getResources(), imageBubbleRes);
         }
         return bubbleBitmap;
+    }
+
+    private Bitmap getErrorBitmap() {
+        if (errorBitmap == null && imageErrorRes != 0) {
+            errorBitmap = BitmapFactory.decodeResource(getResources(), imageErrorRes);
+        }
+        return errorBitmap;
     }
 
     /**
@@ -93,25 +102,31 @@ public class BubbleImageView extends ImageView implements ImageLoaderCallBack {
      */
     public void setImage(int width, int height, ImageLoader imageLoader) {
 
-        //根据图片的原始宽高比换算在最大展示区域内的图片大小
-        if (0 != height && 0 != width) {
-            // 要保证图片的长宽比不变
-            double ratio = (double) height / width;
-            double ratioDefault = (double) maxHeight / maxWidth;
+        if (imageBubbleRes == 0) {
+            throw new IllegalArgumentException("请设置一张气泡图片");
+        } else {
+            //根据图片的原始宽高比换算在最大展示区域内的图片大小
+            if (0 != height && 0 != width) {
+                // 要保证图片的长宽比不变
+                double ratio = (double) height / width;
+                double ratioDefault = (double) maxHeight / maxWidth;
 
-            if (ratio > ratioDefault) {
-                maxHeight = (height > maxHeight ? maxHeight : height);
-                maxWidth = (int) (maxHeight / ratio);
-            } else {
-                maxWidth = (width > maxWidth ? maxWidth : width);
-                maxHeight = (int) (maxWidth * ratio);
+                if (ratio > ratioDefault) {
+                    maxHeight = (height > maxHeight ? maxHeight : height);
+                    maxWidth = (int) (maxHeight / ratio);
+                } else {
+                    maxWidth = (width > maxWidth ? maxWidth : width);
+                    maxHeight = (int) (maxWidth * ratio);
+                }
             }
+
+            //是否加载默认图
+            if (imageDefaultRes != 0) {
+                new BubbleImageTask().execute(getDefaultBitmap(), getBubbleBitmap());
+            }
+
+            imageLoader.loadImageBitmap();
         }
-
-        new BubbleImageTask().execute(getDefaultBitmap(), getBubbleBitmap());
-
-        imageLoader.loadImageBitmap();
-
     }
 
     private void setDefaultData() {
@@ -124,18 +139,6 @@ public class BubbleImageView extends ImageView implements ImageLoaderCallBack {
             maxHeight = BubbleConfig.MAX_DEFAULT_HEIGHT;
         }
 
-        if (imageDefaultRes == 0) {
-            imageDefaultRes = R.mipmap.ic_default_picture;
-        }
-
-        if (imageErrorRes == 0) {
-            imageErrorRes = imageDefaultRes;
-        }
-
-        if (imageBubbleRes == 0) {
-            imageBubbleRes = R.drawable.ic_chat_from_bubble_normal;
-        }
-
         if (pressedColor == 0) {
             isPressedFeedback = false;
         } else {
@@ -145,7 +148,26 @@ public class BubbleImageView extends ImageView implements ImageLoaderCallBack {
 
     @Override
     public void onLoadFinish(Bitmap bitmap) {
-        new BubbleImageTask().execute(bitmap, getBubbleBitmap());
+
+        if (bitmap != null || !bitmap.isRecycled()) {
+            new BubbleImageTask().execute(bitmap, getBubbleBitmap());
+        } else {
+            if (BubbleConfig.isDebug) {
+                Log.e(TAG, "Callback Image is null or recycled!");
+            }
+
+            if (getErrorBitmap() != null && !getErrorBitmap().isRecycled()) {
+                new BubbleImageTask().execute(getErrorBitmap(), getBubbleBitmap());
+
+                if (BubbleConfig.isDebug) {
+                    Log.e(TAG, "Load error Image!");
+                }
+            } else {
+                if (BubbleConfig.isDebug) {
+                    Log.e(TAG, "Load Nothing!");
+                }
+            }
+        }
     }
 
     private class BubbleImageTask extends AsyncTask<Bitmap, Integer, List<Bitmap>> {
