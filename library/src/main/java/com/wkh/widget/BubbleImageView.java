@@ -13,6 +13,10 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.wang.sample.custom.R;
+import com.wkh.widget.config.BubbleConfig;
+import com.wkh.widget.loader.ImageLoader;
+import com.wkh.widget.loader.ImageLoaderCallBack;
+import com.wkh.widget.util.BitmapUtil;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.wang.sample.MainActivity">
 
-    <com.wang.widget.BubbleImageView
+    <com.wkh.widget.BubbleImageView
         android:id="@+id/test_bubble_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.wkh.widget;
+package com.wkh.widget.loader;
 
 import android.graphics.Bitmap;
 

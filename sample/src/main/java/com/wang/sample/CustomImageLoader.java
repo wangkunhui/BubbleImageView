@@ -7,8 +7,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.wkh.widget.ImageLoader;
-import com.wkh.widget.ImageLoaderCallBack;
+import com.wkh.widget.loader.ImageLoader;
+import com.wkh.widget.loader.ImageLoaderCallBack;
 
 /**
  * Created by wang on 2017/6/6.

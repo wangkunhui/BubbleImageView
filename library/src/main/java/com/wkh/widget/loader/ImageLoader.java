@@ -1,4 +1,4 @@
-package com.wkh.widget;
+package com.wkh.widget.loader;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public abstract class ImageLoader implements Serializable {
         this.callBack = callBack;
     }
 
-    protected abstract void loadImageBitmap();
+    public abstract void loadImageBitmap();
 
 }

@@ -1,4 +1,4 @@
-package com.wkh.widget;
+package com.wkh.widget.config;
 
 /**
  * Created by wang on 2017/6/6.

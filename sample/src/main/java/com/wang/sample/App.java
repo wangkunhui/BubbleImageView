@@ -2,7 +2,7 @@ package com.wang.sample;
 
 import android.app.Application;
 
-import com.wkh.widget.BubbleConfig;
+import com.wkh.widget.config.BubbleConfig;
 
 /**
  * Created by wang on 2017/6/6.
