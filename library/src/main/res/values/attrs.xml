@@ -6,5 +6,6 @@
         <attr name="imageBubble" format="reference" />
         <attr name="imageDefault" format="reference" />
         <attr name="imageError" format="reference" />
+        <attr name="pressedColor" format="color" />
     </declare-styleable>
 </resources>

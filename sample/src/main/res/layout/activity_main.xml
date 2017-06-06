@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wang.widget.MainActivity">
+    tools:context="com.wang.sample.MainActivity">
 
-    <com.wang.widget.custom.BubbleImageView
-        android:id="@+id/test_bubble"
+    <com.wang.widget.BubbleImageView
+        android:id="@+id/test_bubble_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@android:color/black"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        app:imageBubble="@drawable/ic_chat_to_card_bubble_pressed"
+        app:pressedColor="#22000000" />
 
     <Button
         android:layout_width="match_parent"

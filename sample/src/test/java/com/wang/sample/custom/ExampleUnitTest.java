@@ -1,4 +1,4 @@
-package com.wang.widget.custom;
+package com.wang.sample.custom;
 
 import org.junit.Test;
 

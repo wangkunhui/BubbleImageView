@@ -1,4 +1,4 @@
-package com.wang.widget.custom;
+package com.wang.sample.custom;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

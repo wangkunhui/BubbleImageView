@@ -1,4 +1,4 @@
-package com.wang.widget.custom;
+package com.wkh.widget;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,7 +14,22 @@ import android.graphics.Rect;
 
 public class BitmapUtil {
 
-    public static Bitmap getRoundCornerImage(Bitmap bitmap_bg, Bitmap bitmap_in, int width, int height) {
+    public static Bitmap getBubbleBitmap(Bitmap bubble, Bitmap source, int width, int height) {
+
+        Bitmap roundCornerImage = getRoundCornerImage(bubble, source, width, height);
+        return getShardImage(bubble, roundCornerImage, width, height);
+    }
+
+    public static Bitmap getBlurBitmap(Bitmap source, int color) {
+
+        Bitmap pressedBitmap = source.copy(Bitmap.Config.ARGB_8888, true);
+        Canvas cv = new Canvas(pressedBitmap);
+
+        cv.drawColor(color, PorterDuff.Mode.SRC_ATOP);
+        return pressedBitmap;
+    }
+
+    private static Bitmap getRoundCornerImage(Bitmap bitmap_bg, Bitmap bitmap_in, int width, int height) {
         Bitmap roundCornerImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(roundCornerImage);
         Paint paint = new Paint();
@@ -31,16 +46,16 @@ public class BitmapUtil {
         return roundCornerImage;
     }
 
-    public static Bitmap getShardImage(Bitmap bitmap_bg, Bitmap bitmap_in, int width, int height) {
+    private static Bitmap getShardImage(Bitmap bubble, Bitmap source, int width, int height) {
         Bitmap roundCornerImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(roundCornerImage);
         Paint paint = new Paint();
         Rect rect = new Rect(0, 0, width, height);
         paint.setAntiAlias(true);
-        NinePatch patch = new NinePatch(bitmap_bg, bitmap_bg.getNinePatchChunk(), null);
+        NinePatch patch = new NinePatch(bubble, bubble.getNinePatchChunk(), null);
         patch.draw(canvas, rect);
         Rect rect2 = new Rect(1, 1, width - 1, height - 1);
-        canvas.drawBitmap(bitmap_in, rect, rect2, paint);
+        canvas.drawBitmap(source, rect, rect2, paint);
         return roundCornerImage;
     }
 }
